@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication',
     'tickets',
+    'review',
 ]
 
 LOGIN_URL = 'login'  # pour rediriger les utilisateurs non connectés

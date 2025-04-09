@@ -1,12 +1,40 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Flux - LITReview{% endblock %}
 
 {% block content %}
-    <h1>Mon Flux</h1>
+<h1>Bienvenue sur le Flux</h1>
 
+<div class="actions">
     <a href="{% url 'create_ticket' %}" class="btn">Demander une critique</a>
+    <a href="{% url 'create_review' %}" class="btn">Créer une critique</a>
+</div>
 
-    <!-- Affichage du contenu du flux (billets + reviews) -->
-    {% for post in posts %}
-        <!-- ton code d’affichage ici -->
-    {% endfor %}
+<hr>
+
+{% for post in posts %}
+    {% if post.content_type == 'TICKET' %}
+        <div class="ticket">
+            <h3>{{ post.title }}</h3>
+            <p><strong>Posté par :</strong> {{ post.user.username }}</p>
+            <p>{{ post.description }}</p>
+            {% if post.image %}
+                <img src="{{ post.image.url }}" alt="Image du ticket" style="max-width: 300px;">
+            {% endif %}
+            <p><small>{{ post.time_created }}</small></p>
+        </div>
+    {% elif post.content_type == 'REVIEW' %}
+        <div class="review">
+            <h3>{{ post.headline }} - {{ post.rating }}/5</h3>
+            <p><strong>Par :</strong> {{ post.user.username }}</p>
+            <p>{{ post.body }}</p>
+            <p><small>{{ post.time_created }}</small></p>
+        </div>
+    {% endif %}
+    <hr>
+{% empty %}
+    <p>Aucune publication pour le moment.</p>
+{% endfor %}
+
 {% endblock %}
