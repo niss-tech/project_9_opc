@@ -16,5 +16,4 @@ def landing_view(request):
     form = AuthenticationForm()
     return render(request, 'authentication/landing.html', {'form': form})
 
-def feed_view(request):
-    return render(request, 'feed.html')
+
