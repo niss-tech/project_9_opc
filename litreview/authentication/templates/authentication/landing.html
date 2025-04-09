@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Bienvenue sur LITRevu</title>
+    <link rel="stylesheet" href="{% static 'authentication/css/landing.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <h2>Inscrivez-vous</h2>
+            <a href="{% url 'signup' %}" class="btn">S'inscrire</a>
+        </div>
+        <div class="right">
+            <h2>Connectez-vous</h2>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn">Se connecter</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

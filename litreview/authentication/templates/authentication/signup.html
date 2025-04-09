@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription - LITRevu</title>
+    <link rel="stylesheet" href="{% static 'authentication/css/signup.css' %}">
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Créer un compte</h2>
+
+        {% if form.errors %}
+            <div class="errors">
+                <p>⚠️ Veuillez corriger les erreurs suivantes :</p>
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li><strong>{{ field.label }} :</strong> {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'feed' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">S'inscrire</button>
+        </form>
+
+        <p class="back"><a href="{% url 'landing' %}">← Retour à l'accueil</a></p>
+    </div>
+</body>
+</html>

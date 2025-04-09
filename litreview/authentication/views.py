@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from .forms import SignUpForm
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.forms import AuthenticationForm
 
 def signup_view(request):
     form = SignUpForm(request.POST or None)
@@ -10,3 +11,10 @@ def signup_view(request):
         login(request, user)
         return redirect('feed')  # ou une autre URL
     return render(request, 'authentication/signup.html', {'form': form})
+
+def landing_view(request):
+    form = AuthenticationForm()
+    return render(request, 'authentication/landing.html', {'form': form})
+
+def feed_view(request):
+    return render(request, 'feed.html')
