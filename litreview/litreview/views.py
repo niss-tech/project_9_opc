@@ -17,3 +17,14 @@ def feed_view(request):
         reverse=True
     )
     return render(request, 'feed.html', {'posts': posts})
+
+@login_required
+def my_posts_view(request):
+    tickets = Ticket.objects.filter(user=request.user)
+    reviews = Review.objects.filter(user=request.user)
+
+    context = {
+        'tickets': tickets,
+        'reviews': reviews,
+    }
+    return render(request, 'my_posts.html', context)
