@@ -27,7 +27,7 @@
     {% elif post.content_type == 'REVIEW' %}
         <div class="review">
             <h3>{{ post.headline }} - {{ post.rating }}/5</h3>
-            <p><strong>Par :</strong> {{ post.user.username }}</p>
+            <p><strong>Par :</strong> {{ post.author.username }}</p>
             <p>{{ post.body }}</p>
             <p><small>{{ post.time_created }}</small></p>
         </div>

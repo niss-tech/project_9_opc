@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Mes Publications{% endblock %}
+{% block content %}
+<h2>Mes tickets</h2>
+{% for ticket in tickets %}
+    <div>
+        <h3>{{ ticket.title }}</h3>
+        <p>{{ ticket.description }}</p>
+        <a href="{% url 'edit_ticket' ticket.id %}">Modifier</a> |
+        <a href="{% url 'delete_ticket' ticket.id %}">Supprimer</a>
+    </div>
+{% empty %}
+    <p>Vous n'avez créé aucun ticket.</p>
+{% endfor %}
+
+<hr>
+
+<h2>Mes critiques</h2>
+{% for review in reviews %}
+    <div>
+        <h3>{{ review.headline }}</h3>
+        <p>{{ review.body }}</p>
+        <a href="{% url 'edit_review' review.id %}">Modifier</a> |
+        <a href="{% url 'delete_review' review.id %}">Supprimer</a>
+    </div>
+{% empty %}
+    <p>Vous n'avez rédigé aucune critique.</p>
+{% endfor %}
+{% endblock %}

@@ -13,7 +13,7 @@
                     {% csrf_token %}
                     <button type="submit">Se déconnecter</button>
                 </form>
-                
+                <a href="{% url 'my_posts' %}">Mes publications</a>
                 
             {% else %}
                 <a href="{% url 'login' %}">Se connecter</a>
