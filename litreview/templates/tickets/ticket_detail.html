@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Détails du Ticket{% endblock %}
+
+{% block content %}
+<h2>{{ ticket.title }}</h2>
+<p><strong>Description :</strong> {{ ticket.description }}</p>
+{% if ticket.image %}
+    <img src="{{ ticket.image.url }}" alt="Image du ticket" style="max-width:300px;">
+{% endif %}
+
+<hr>
+<h3>Critiques associées :</h3>
+{% for review in reviews %}
+    <div>
+        <h4>{{ review.headline }} ({{ review.rating }}/5)</h4>
+        <p>{{ review.body }}</p>
+        <p><small>Par {{ review.author.username }} - {{ review.time_created }}</small></p>
+    </div>
+    <hr>
+{% empty %}
+    <p>Aucune critique pour ce ticket.</p>
+{% endfor %}
+{% endblock %}

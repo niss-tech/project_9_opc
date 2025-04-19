@@ -41,3 +41,15 @@ def my_posts_view(request):
         'reviews': reviews,
     }
     return render(request, 'tickets/my_posts.html', context)
+
+
+@login_required
+def ticket_detail(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    reviews = Review.objects.filter(ticket=ticket)
+
+    context = {
+        'ticket': ticket,
+        'reviews': reviews
+    }
+    return render(request, 'tickets/ticket_detail.html', context)

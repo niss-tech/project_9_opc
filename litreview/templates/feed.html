@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+<link rel="stylesheet" href="{% static 'feed.css' %}">
 
 {% block title %}Flux - LITReview{% endblock %}
 
@@ -29,6 +30,7 @@
             <h3>{{ post.headline }} - {{ post.rating }}/5</h3>
             <p><strong>Par :</strong> {{ post.author.username }}</p>
             <p>{{ post.body }}</p>
+            <p><strong>Ticket posté par :</strong> {{ post.ticket.user.username }}</p>
             <p><small>{{ post.time_created }}</small></p>
         </div>
     {% endif %}

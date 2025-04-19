@@ -1,0 +1,38 @@
+
+
+.review {
+    border: 1px solid #000;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.review h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.ticket-inside-review {
+    border: 1px solid #aaa;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+}
+
+.ticket-inside-review h4 {
+    margin-top: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.ticket-inside-review p {
+    margin: 5px 0;
+}
+
+.ticket img, .ticket-inside-review img {
+    max-width: 300px;
+    display: block;
+    margin-top: 10px;
+}
