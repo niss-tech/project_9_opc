@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReviewForm
 from django.contrib.auth.decorators import login_required
-from .models import Review
+from .models import Review, Ticket
 
 @login_required
 def create_review(request):
@@ -32,3 +32,15 @@ def delete_review(request, review_id):
         review.delete()
         return redirect('my_posts')
     return render(request, 'review/delete_review.html', {'review': review})
+
+@login_required
+def create_review_for_ticket(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    form = ReviewForm(request.POST or None)
+    if form.is_valid():
+        review = form.save(commit=False)
+        review.author = request.user
+        review.ticket = ticket
+        review.save()
+        return redirect('feed')
+    return render(request, 'review/create_review_for_ticket.html', {'form': form, 'ticket': ticket})

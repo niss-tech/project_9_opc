@@ -24,6 +24,7 @@
                 <img src="{{ post.image.url }}" alt="Image du ticket" style="max-width: 300px;">
             {% endif %}
             <p><small>{{ post.time_created }}</small></p>
+            <a href="{% url 'create_review_for_ticket' post.id %}">Répondre par une critique</a>
         </div>
     {% elif post.content_type == 'REVIEW' %}
         <div class="review">
@@ -32,6 +33,7 @@
             <p>{{ post.body }}</p>
             <p><strong>Ticket posté par :</strong> {{ post.ticket.user.username }}</p>
             <p><small>{{ post.time_created }}</small></p>
+            
         </div>
     {% endif %}
     <hr>
