@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'authentication',
     'tickets',
     'review',
+    'follows',
 ]
 
 LOGIN_URL = 'login'  # pour rediriger les utilisateurs non connectés

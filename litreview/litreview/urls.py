@@ -26,6 +26,7 @@ urlpatterns = [
     path('tickets/', include('tickets.urls')),
     path('review/', include('review.urls')),
     path('feed/', feed_view, name='feed'),
+    path('follow/', include('follows.urls')),
 ]
 
 if settings.DEBUG:
