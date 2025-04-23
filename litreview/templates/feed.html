@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'feed.css' %}">
 
 {% block title %}Flux - LITReview{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'feed.css' %}">
+
 <h1>Bienvenue sur le Flux</h1>
 
 <div class="actions">
@@ -14,31 +15,40 @@
 
 <hr>
 
-{% for post in posts %}
-    {% if post.content_type == 'TICKET' %}
-        <div class="ticket">
-            <h3>{{ post.title }}</h3>
-            <p><strong>Posté par :</strong> {{ post.user.username }}</p>
-            <p>{{ post.description }}</p>
-            {% if post.image %}
-                <img src="{{ post.image.url }}" alt="Image du ticket" style="max-width: 300px;">
-            {% endif %}
-            <p><small>{{ post.time_created }}</small></p>
-            <a href="{% url 'create_review_for_ticket' post.id %}">Répondre par une critique</a>
-        </div>
-    {% elif post.content_type == 'REVIEW' %}
-        <div class="review">
-            <h3>{{ post.headline }} - {{ post.rating }}/5</h3>
-            <p><strong>Par :</strong> {{ post.author.username }}</p>
-            <p>{{ post.body }}</p>
-            <p><strong>Ticket posté par :</strong> {{ post.ticket.user.username }}</p>
-            <p><small>{{ post.time_created }}</small></p>
-            
-        </div>
-    {% endif %}
-    <hr>
-{% empty %}
-    <p>Aucune publication pour le moment.</p>
-{% endfor %}
+<div class="posts">
+    {% for post in posts %}
+        {% if post.content_type == 'TICKET' %}
+            <div class="card ticket-card">
+                <h3>{{ post.title }}</h3>
+                <p><strong>Posté par :</strong> {{ post.user.username }}</p>
+                <p>{{ post.description }}</p>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="Image du ticket">
+                {% endif %}
+                <p class="timestamp">{{ post.time_created }}</p>
+            </div>
+        {% elif post.content_type == 'REVIEW' %}
+            <div class="card review-card">
+                <div class="review-header">
+                    <h3>{{ post.headline }} - {{ post.rating }}/5</h3>
+                    <p><strong>Par :</strong> {{ post.author.username }}</p>
+                </div>
+                <p>{{ post.body }}</p>
+                <p class="timestamp">{{ post.time_created }}</p>
+
+                <div class="card ticket-in-review">
+                    <h4>{{ post.ticket.title }}</h4>
+                    <p><strong>Ticket posté par :</strong> {{ post.ticket.user.username }}</p>
+                    <p>{{ post.ticket.description }}</p>
+                    {% if post.ticket.image %}
+                        <img src="{{ post.ticket.image.url }}" alt="Image du ticket">
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    {% empty %}
+        <p>Aucune publication pour le moment.</p>
+    {% endfor %}
+</div>
 
 {% endblock %}
