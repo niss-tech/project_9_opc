@@ -30,7 +30,17 @@
         {% elif post.content_type == 'REVIEW' %}
             <div class="card review-card">
                 <div class="review-header">
-                    <h3>{{ post.headline }} - {{ post.rating }}/5</h3>
+                    <h3>{{ post.headline }}</h3>
+                    <p>
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= post.rating %}
+                                <i class="fas fa-star" style="color: #FFD700;"></i>
+                            {% else %}
+                                <i class="far fa-star" style="color: #FFD700;"></i>
+                            {% endif %}
+                        {% endfor %}
+
+                    </p>
                     <p><strong>Par :</strong> {{ post.author.username }}</p>
                 </div>
                 <p>{{ post.body }}</p>
