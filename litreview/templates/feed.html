@@ -25,6 +25,9 @@
                 {% if post.image %}
                     <img src="{{ post.image.url }}" alt="Image du ticket">
                 {% endif %}
+                {% if not post.has_review %}
+                    <a href="{% url 'create_review_for_ticket' post.id %}" class="btn">Répondre à ce ticket</a>
+                {% endif %}
                 <p class="timestamp">{{ post.time_created }}</p>
             </div>
         {% elif post.content_type == 'REVIEW' %}
@@ -33,12 +36,12 @@
                     <h3>{{ post.headline }}</h3>
                     <p>
                         {% for i in "12345" %}
-                            {% if forloop.counter <= post.rating %}
-                                <i class="fas fa-star" style="color: #FFD700;"></i>
-                            {% else %}
-                                <i class="far fa-star" style="color: #FFD700;"></i>
-                            {% endif %}
-                        {% endfor %}
+                        {% if forloop.counter <= post.rating %}
+                            <i class="fas fa-star" style="color: #FFD700;"></i>
+                        {% else %}
+                            <i class="far fa-star" style="color: #FFD700;"></i>
+                        {% endif %}
+                    {% endfor %}
 
                     </p>
                     <p><strong>Par :</strong> {{ post.author.username }}</p>

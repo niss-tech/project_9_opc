@@ -1,7 +1,7 @@
 # litreview/views.py
 
 from itertools import chain
-from django.db.models import CharField, Value
+from django.db.models import CharField, Value, Exists, OuterRef
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from tickets.models import Ticket
@@ -10,15 +10,21 @@ from follows.models import UserFollows
 
 @login_required
 def feed_view(request):
-    # 1. Récupérer les utilisateurs suivis + soi-même
+    # Récupérer les utilisateurs suivis + soi-même
     followed_users = UserFollows.objects.filter(user=request.user).values_list('followed_user', flat=True)
     users_to_display = list(followed_users) + [request.user.id]
 
-    # 2. Filtrer tickets et critiques
-    tickets = Ticket.objects.filter(user__id__in=users_to_display).annotate(content_type=Value('TICKET', CharField()))
+    # Annoter si chaque ticket a déjà une review
+    tickets = Ticket.objects.filter(user__id__in=users_to_display).annotate(
+        has_review=Exists(
+            Review.objects.filter(ticket=OuterRef('pk'))
+        )
+    ).annotate(content_type=Value('TICKET', CharField()))
+
+    # Critiques des utilisateurs suivis ou soi-même
     reviews = Review.objects.filter(author__id__in=users_to_display).annotate(content_type=Value('REVIEW', CharField()))
 
-    # 3. Fusionner et trier
+    # Fusionner et trier par date décroissante
     posts = sorted(
         chain(tickets, reviews),
         key=lambda post: post.time_created,
@@ -26,7 +32,6 @@ def feed_view(request):
     )
 
     return render(request, 'feed.html', {'posts': posts})
-
 
 @login_required
 def my_posts_view(request):
