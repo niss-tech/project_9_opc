@@ -7,6 +7,17 @@ from .forms import FollowUserForm
 
 @login_required
 def follow_users_view(request):
+    """
+    Permet à un utilisateur de suivre un autre utilisateur via un formulaire.
+
+    Args:
+        request (HttpRequest): Requête HTTP contenant le formulaire
+            et les informations de session.
+
+    Returns:
+        HttpResponse: Affiche la page des abonnements avec un formulaire
+            de suivi et la liste des utilisateurs suivis.
+    """
     form = FollowUserForm()
     message = ''
 
@@ -41,6 +52,16 @@ def follow_users_view(request):
 
 @login_required
 def unfollow_user_view(request, follow_id):
+    """
+    Permet de se désabonner d’un utilisateur suivi.
+
+    Args:
+        request (HttpRequest): Requête HTTP envoyée par l’utilisateur connecté.
+        follow_id (int): Identifiant du lien d’abonnement à supprimer.
+
+    Returns:
+        HttpResponseRedirect: Redirige vers la page des abonnements.
+    """
     follow = get_object_or_404(
         UserFollows,
         id=follow_id,

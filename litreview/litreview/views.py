@@ -9,25 +9,33 @@ from follows.models import UserFollows
 
 @login_required
 def feed_view(request):
-    # Récupérer les utilisateurs suivis + soi-même
+    """
+    Vue principale affichant le flux d’actualités de l’utilisateur connecté.
+
+    Args:
+        request (HttpRequest): Requête envoyée par un utilisateur connecté.
+
+    Returns:
+        HttpResponse: Page contenant les tickets et critiques des utilisateurs
+        suivis ainsi que les siens, triés par date décroissante.
+    """
     followed_users = UserFollows.objects.filter(
         user=request.user
     ).values_list('followed_user', flat=True)
     users_to_display = list(followed_users) + [request.user.id]
 
-    # Annoter si chaque ticket a déjà une review
-    tickets = Ticket.objects.filter(user__id__in=users_to_display).annotate(
+    tickets = Ticket.objects.filter(
+        user__id__in=users_to_display
+    ).annotate(
         has_review=Exists(
             Review.objects.filter(ticket=OuterRef('pk'))
         )
     ).annotate(content_type=Value('TICKET', CharField()))
 
-    # Critiques des utilisateurs suivis ou soi-même
     reviews = Review.objects.filter(
         author__id__in=users_to_display
     ).annotate(content_type=Value('REVIEW', CharField()))
 
-    # Fusionner et trier par date décroissante
     posts = sorted(
         chain(tickets, reviews),
         key=lambda post: post.time_created,
@@ -39,6 +47,16 @@ def feed_view(request):
 
 @login_required
 def my_posts_view(request):
+    """
+    Vue affichant uniquement les tickets et
+    critiques de l’utilisateur connecté.
+
+    Args:
+        request (HttpRequest): Requête d’un utilisateur connecté.
+
+    Returns:
+        HttpResponse: Page listant les posts personnels (tickets + critiques).
+    """
     tickets = Ticket.objects.filter(user=request.user)
     reviews = Review.objects.filter(user=request.user)
 
