@@ -1,5 +1,11 @@
 from django.urls import path
-from .views import create_ticket, my_posts_view, edit_ticket, delete_ticket, ticket_detail
+from .views import (
+    create_ticket,
+    my_posts_view,
+    edit_ticket,
+    delete_ticket,
+    ticket_detail,
+)
 
 urlpatterns = [
     path('create/', create_ticket, name='create_ticket'),

@@ -17,12 +17,33 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Ticket',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID'
+                    )
+                ),
                 ('title', models.CharField(max_length=128)),
                 ('description', models.TextField(blank=True)),
-                ('image', models.ImageField(blank=True, null=True, upload_to='ticket_images/')),
+                (
+                    'image',
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to='ticket_images/'
+                    )
+                ),
                 ('time_created', models.DateTimeField(auto_now_add=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    'user',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL
+                    )
+                ),
             ],
         ),
     ]

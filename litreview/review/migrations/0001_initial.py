@@ -18,13 +18,28 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Review',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('rating', models.PositiveSmallIntegerField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')])),
+                ('id', models.BigAutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID'
+                )),
+                ('rating', models.PositiveSmallIntegerField(
+                    choices=[
+                        (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')
+                    ]
+                )),
                 ('headline', models.CharField(max_length=128)),
                 ('body', models.TextField(blank=True, max_length=8192)),
                 ('time_created', models.DateTimeField(auto_now_add=True)),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('ticket', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='tickets.ticket')),
+                ('author', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to=settings.AUTH_USER_MODEL
+                )),
+                ('ticket', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='tickets.ticket'
+                )),
             ],
         ),
     ]

@@ -3,6 +3,7 @@ from .forms import ReviewForm
 from django.contrib.auth.decorators import login_required
 from .models import Review, Ticket
 
+
 @login_required
 def create_review(request):
     if request.method == 'POST':
@@ -16,6 +17,7 @@ def create_review(request):
         form = ReviewForm()
     return render(request, 'review/create_review.html', {'form': form})
 
+
 @login_required
 def edit_review(request, review_id):
     review = get_object_or_404(Review, id=review_id, author=request.user)
@@ -25,6 +27,7 @@ def edit_review(request, review_id):
         return redirect('my_posts')
     return render(request, 'review/edit_review.html', {'form': form})
 
+
 @login_required
 def delete_review(request, review_id):
     review = get_object_or_404(Review, id=review_id, author=request.user)
@@ -32,6 +35,7 @@ def delete_review(request, review_id):
         review.delete()
         return redirect('my_posts')
     return render(request, 'review/delete_review.html', {'review': review})
+
 
 @login_required
 def create_review_for_ticket(request, ticket_id):
@@ -43,4 +47,8 @@ def create_review_for_ticket(request, ticket_id):
         review.ticket = ticket
         review.save()
         return redirect('feed')
-    return render(request, 'review/create_review_for_ticket.html', {'form': form, 'ticket': ticket})
+    return render(
+        request,
+        'review/create_review_for_ticket.html',
+        {'form': form, 'ticket': ticket}
+    )

@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from tickets.models import Ticket
 from review.models import Review
 
+
 @login_required
 def create_ticket(request):
     form = TicketForm(request.POST or None, request.FILES or None)
@@ -14,14 +15,18 @@ def create_ticket(request):
         return redirect('feed')
     return render(request, 'tickets/create_ticket.html', {'form': form})
 
+
 @login_required
 def edit_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id, user=request.user)
-    form = TicketForm(request.POST or None, request.FILES or None, instance=ticket)
+    form = TicketForm(
+        request.POST or None, request.FILES or None, instance=ticket
+    )
     if form.is_valid():
         form.save()
         return redirect('my_posts')
     return render(request, 'tickets/edit_ticket.html', {'form': form})
+
 
 @login_required
 def delete_ticket(request, ticket_id):
@@ -30,6 +35,7 @@ def delete_ticket(request, ticket_id):
         ticket.delete()
         return redirect('my_posts')
     return render(request, 'tickets/delete_ticket.html', {'ticket': ticket})
+
 
 @login_required
 def my_posts_view(request):
